@@ -1,0 +1,7 @@
+remove human contaminants:
+http://seqanswers.com/forums/showthread.php?t=42552
+So, this is the final command line:
+bbmap.sh minid=0.95 maxindel=3 bwr=0.16 bw=12 quickmatch fast minhits=2 path=/path/to/hg19masked/ qtrim=rl trimq=10 untrim -Xmx23g in=reads.fq outu=clean.fq outm=human.fq
+
+You first have to index the reference, like this:
+bbmap.sh ref=hg19_main_mask_ribo_animal_allplant_allfungus.fa.gz -Xmx23g
