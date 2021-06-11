@@ -25,12 +25,13 @@ module load kraken2/v2.1.1
 module load bracken/v2.6
 module load seqtk/v1.3-r117-dirty
 ```
-Get help:
+
+Run the program locally and get help:
 ```
 nextflow run main.nf --help
 ```
 
-Example command:
+Example command to run the program from github
 ```
 nextflow run ABMicroBioinf/nf-qc --inputdir "fastq" --paired_end "*_{1,2}.fastq" -with-dag flowchart.png --minlen "20" -r c40d082
 ```
