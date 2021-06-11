@@ -30,8 +30,12 @@ Get help:
 nextflow run main.nf --help
 ```
 
-Example command for processing the fastq format paired-end sequence files(ERR019555_1.fastq  ERR019555_2.fastq  ERR019564_1.fastq  ERR019564_2.fastq) contained inside the fastq directory
+Example command:
 ```
 nextflow run ABMicroBioinf/nf-qc --inputdir "fastq" --paired_end "*_{1,2}.fastq" -with-dag flowchart.png --minlen "20" -r c40d082
 ```
-c40d082 is the github revision and can change
+In the command "c40d082" is the github revision number and can change. This command processes the fastq format files contained inside "fastq" directory. The files contained inside the directory are:
+* ERR019555_1.fastq
+* ERR019555_2.fastq
+* ERR019564_1.fastq
+* ERR019564_2.fastq
