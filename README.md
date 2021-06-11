@@ -1,8 +1,8 @@
+
 # nf-qc
 ABMicroBioinf/nf-qc is a bioinformatics pipeline that can be used to do the genome/metagenome sequence quality control and generate sequence stats information
 
-![flowchart](https://user-images.githubusercontent.com/52679027/121611397-5ee32300-ca15-11eb-9b42-ea0c128bd0c0.png)
-
+![flowchart](https://user-images.githubusercontent.com/52679027/121611912-9a322180-ca16-11eb-9447-663dd6ffd4af.png)
 
 # Third-party software
 This pipeline are depending on a number of the third-party software. Please install the following 3rd party dependencies and make sure they are on your system path
