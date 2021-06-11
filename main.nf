@@ -108,9 +108,9 @@ QC was implemented using the procedure described in the link
 https://www.protocols.io/view/illumina-fastq-filtering-gydbxs6?step=4
 */
 process bbduk {
-  //ERR019564_R1.qc.fastq.gz
   tag "$name"
-  label 'bbduk'
+  label "small_mem"
+  
   publishDir "${params.outdir}/qc/seqs", mode: 'copy' , pattern: "*.qc.fastq.gz"
   publishDir "${params.outdir}/qc/bbduk_stats", mode: 'copy' , pattern: "*stats.txt"
 
@@ -118,7 +118,7 @@ process bbduk {
   set val(name), file(reads) from fastq_input_to_qc
   path adapter from params.adapter
   path arti from params.arti
-  path host from params.host
+  //path host from params.host
 
   output:
   set val(name), file("*qc.fastq.gz") into qcreads_to_fastqc
@@ -132,11 +132,14 @@ process bbduk {
   prefix_se = name
   //println "***************= $prefix_pe"
 
+  ram = "-Xmx${task.memory.toGiga()}g"
+  println "********************ram=$ram"
+  
   if (params.type == 'single-end') {
     """
       echo ${prefix_se}
       
-      bbduk.sh \
+      bbduk.sh $ram \
         in=${reads} \
         ref=${adapter} \
         out=${prefix_se}_trim.fastq.gz \
@@ -147,7 +150,7 @@ process bbduk {
         ftm=5 minlen=${params.minlen} tbo tpe ow=t rcomp=f hdist2=1 ftm=5 zl=4 
 
     # quality trimming
-    bbduk.sh \
+    bbduk.sh $ram \
         in=${prefix_se}_trim.fastq.gz \
         ref=${arti} \
         out=${prefix_se}_qFiltered.fastq.gz \
@@ -157,7 +160,7 @@ process bbduk {
         threads=${task.cpus}
 
     #artifact filtering
-    bbduk.sh \
+    bbduk.sh $ram \
         in=${prefix_se}_trim.fastq.gz \
         ref=${arti} \
         out=${prefix_se}_artiFiltered.fastq.gz \
@@ -176,7 +179,7 @@ process bbduk {
     """
     echo ${prefix_pe}
     
-    bbduk.sh \
+    bbduk.sh $ram \
       in1=${reads[0]} \
       in2=${reads[1]} \
       ref=${adapter} \
@@ -189,7 +192,7 @@ process bbduk {
       ftm=5 minlen=${params.minlen} tbo tpe ow=t rcomp=f hdist2=1 ftm=5 zl=4 
 
   # quality trimming
-  bbduk.sh \
+  bbduk.sh $ram \
       in=${prefix_pe}_trim_R1.fastq.gz \
       in2=${prefix_pe}_trim_R2.fastq.gz \
       ref=${arti} \
@@ -201,7 +204,7 @@ process bbduk {
       threads=${task.cpus}
 
   #artifact filtering
-  bbduk.sh \
+  bbduk.sh $ram \
       in=${prefix_pe}_trim_R1.fastq.gz \
       in2=${prefix_pe}_trim_R2.fastq.gz \
       ref=${arti} \
@@ -249,8 +252,7 @@ process stats_qcreads {
 
 process kraken2 {
   
-  cpus 8
-
+  label "small_mem"
   tag "$name"
 
   publishDir "${params.outdir}/classifier", mode: 'copy' , pattern: "*.kraken2*"
