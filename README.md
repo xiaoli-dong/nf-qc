@@ -1,6 +1,6 @@
 
 # nf-qc
-ABMicroBioinf/nf-qc is a bioinformatics pipeline that can be used to do the genome/metagenome sequence quality control and generate sequence stats information
+ABMicroBioinf/nf-qc is a bioinformatics pipeline that can be used to do the genome/metagenome sequence quality control and generate sequence stats information. For now, I only tested the pipeline with the illumina paired-end dataset. I will keep updating the program later.
 
 ![flowchart](https://user-images.githubusercontent.com/52679027/121611912-9a322180-ca16-11eb-9447-663dd6ffd4af.png)
 
