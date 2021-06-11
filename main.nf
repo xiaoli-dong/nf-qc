@@ -11,16 +11,15 @@ def helpMessage() {
   --outdir                  The directory to place processing results (default is ./outdir)
   --paired_end              the fastq filename pattern (default *_R{1,2}*.fastq.gz)
   --single_end              the fastq filename pattern (default *.fastq.gz)
-  --adapter                  The adapter fasta file (default is ./ref/adapters.fa)
-  --host                     The host reference fasta file (defualt is ./ref/hg19_main_mask_ribo_animal_allplant_allfungus.fa.gz)
-  --arti                     contamination database (default ./ref/artifacts.fa.gz)
-  --type                Specifies that the input files are paired reads or single-end|paired-end(default is paired-end)
-  --minlen                  min length of the quality controlled reads
+  --adapter                 The adapter fasta file (default is ./ref/adapters.fa . it is from bbmap program sitting in the "resource directory")
+  --arti                    The contamination database (default ./ref/artifacts.fa.gz . it is from bbmap program sitting in the "resource directory")
+  --type                    Specifies that the input files are paired reads or single-end|paired-end(default is paired-end)
+  --minlen                  Min length cutoff of the quality controlled reads
   --kraken2_db              Kraken program database (default is at $HOME/software/kraken2/db/minikraken_8GB_20200312)
-  --help                     This usage statement.
+  --help                    This usage statement.
   """.stripIndent()
 }
-
+//--host                     The host reference fasta file (defualt is ./ref/hg19_main_mask_ribo_animal_allplant_allfungus.fa.gz)
 seq_status = "raw"
 
 // Show help message
@@ -314,9 +313,9 @@ process multiqc {
     file raw_fastqc from raw_fastqc_results.collect()
     file qc_fastqc from qc_fastqc_results.collect()
     file qc_stat from qc_stats.collect()
-    /* output:
+    output:
     file "*multiqc_report.html" into multiqc_report
-    file "*_data" into multiqc_report_files */
+    file "*_data" into multiqc_report_files
 
   script:
   """
